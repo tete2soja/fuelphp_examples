@@ -10,6 +10,12 @@ class Model_Example extends \Model_Crud
 
     protected static $_table_name = 'exmaples';
 
+    protected static function pre_find(&$query)
+    {
+        // alter the query
+        $query->order_by('nom', 'asc');
+    }
+
     public static function post_find($result)
     {
         if($result !== null)
@@ -18,7 +24,7 @@ class Model_Example extends \Model_Crud
             {
                 if ( ! empty($value->person_id))
                 {
-                    $person = Model_Person::find_one_by_id($value->person_id)->name;
+                    $person = Model_Other_Example::find_one_by_id($value->person_id)->name;
                     $value->set(array('person_nom' => $person));
                 }
             }
